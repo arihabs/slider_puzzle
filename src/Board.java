@@ -13,7 +13,8 @@ public class Board{
 
         this.N = tiles.length;
         this.numel = N*N;
-        this.tiles = new int[N][N];
+//        this.tiles = new int[N][N];
+        this.tiles = new short[N][N];
 
         assert this.N > 1;
 
@@ -27,7 +28,7 @@ public class Board{
         int zeroIdxTmp = -1;
         for(int i =0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                this.tiles[i][j] = tiles[i][j];
+                this.tiles[i][j] = (short) tiles[i][j];
                 int currentTile = tiles[i][j];
 
                 int linearIdx = i*N + j; // 0 based indexing
@@ -175,7 +176,8 @@ public class Board{
     private final int N;
 
     private final int numel;
-    private final int tiles[][];
+//    private final int tiles[][];
+    private final short tiles[][];
     private final int hammDist;
     private final int manhattanDist;
     private final boolean isSolution;
@@ -212,6 +214,16 @@ public class Board{
                 aCopy[i][j] = a[i][j];
                }
             }
+        return aCopy;
+    }
+
+    private int[][] copyArray2D(short[][] a){
+        int[][] aCopy = new int[this.N][this.N];
+        for(int i =0; i < N; i++){
+            for (int j = 0; j < N; j++) {
+                aCopy[i][j] = (int) a[i][j];
+            }
+        }
         return aCopy;
     }
 

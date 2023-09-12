@@ -12,7 +12,7 @@ import java.util.Iterator;
 // Does inner Node class need to be static?
 
 public class Solver{
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     // find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial){
         if(initial==null)
@@ -83,7 +83,7 @@ public class Solver{
                 for(int j = 0; j < n; j++)
                     tiles[i][j] = in.readInt();
 
-            StdOut.println(fName);
+//            StdOut.println(fName);
             Board board = new Board(tiles);
             Solver solver = new Solver(board);
             StdOut.println(fName + "- # Moves: " + solver.moves());
