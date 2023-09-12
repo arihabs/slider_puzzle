@@ -18,6 +18,7 @@ public class Board{
         assert this.N > 1;
 
         // String representation
+        final int nDigits = (int) Math.floor(Math.log10((double) this.numel-1)) + 1;
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(Integer.toString(this.N) + "\n");
 
@@ -47,7 +48,8 @@ public class Board{
                 }
 
                 // String representation
-                stringBuilder.append(Integer.toString(this.tiles[i][j]) + " ");
+                stringBuilder.append(String.format("%"+nDigits+"d ",this.tiles[i][j]));
+//                stringBuilder.append(Integer.toString(this.tiles[i][j]) + " ");
             }
             stringBuilder.append("\n");
         }
