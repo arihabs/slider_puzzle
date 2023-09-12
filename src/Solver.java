@@ -2,6 +2,7 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Out;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.MinPQ;
 
 import java.io.File;
@@ -45,8 +46,16 @@ public class Solver{
 
         this.pvIsSolvable = locIsSolvable;
         if(locIsSolvable) {
-            this.pvMoves = solutionStage.qb.size() - 1;
-            pvSolution = solutionStage.qb;
+            // Trace back solution and push onto stack
+            Node currentNode = solutionStage.currentNode;
+            Stack<Board> stackSol = new Stack<Board>();
+            stackSol.push(currentNode.board);
+            while(currentNode.prev != null){
+                currentNode = currentNode.prev;
+                stackSol.push(currentNode.board);
+            }
+            this.pvMoves = stackSol.size() - 1;
+            pvSolution = stackSol;
         }
         else {
             this.pvMoves = -1;
@@ -105,11 +114,14 @@ public class Solver{
 
     private class SolverStage{
         MinPQ<Node> pq;
-        Queue<Board> qb;
+        Node currentNode;
+//        Queue<Board> qb;
+
+        int nStages = 0;
         boolean isGoal;
         public SolverStage(Board board) {
             pq = new MinPQ<Node>();
-            qb = new Queue<Board>();
+//            qb = new Queue<Board>();
             Node n = new Node(board,null);
             pq.insert(n);
         }
@@ -117,11 +129,12 @@ public class Solver{
         public void next(){
             //delete from the priority queue the search node with the minimum priority, and insert onto the priority queue all neighboring search nodes
             Node n = pq.delMin();
+            currentNode = n;
 //            if(Solver.DEBUG){
 //                StdOut.printf("Manhattan Priority = %d, Hamming Priority = %d\n",n.manhat,n.hamm);
 //                StdOut.println(n.board.toString());
 //            }
-            qb.enqueue(n.board);
+//            qb.enqueue(n.board);
             isGoal = n.isGoal;
             if(isGoal) return;
 
@@ -133,6 +146,7 @@ public class Solver{
 //                newNode.prev = n;
                 pq.insert(new Node(b,n));
             }
+            nStages++;
 //            n.prev = null;
         }//next
     }
@@ -180,7 +194,7 @@ public class Solver{
     private final Iterable<Board> pvSolution;
 
     private void printPQContents(SolverStage stage){
-        final int currentStage = stage.qb.size();
+        final int currentStage = stage.nStages;
         StdOut.println("Stage " + currentStage + ": PQ Contents");
         int MAXNODES = 1000;
         int nodeCnt = 0;
