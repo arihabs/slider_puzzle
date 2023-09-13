@@ -141,7 +141,8 @@ public class Solver{
             // Insert neighbors into PQ
             Iterable<Board> it = n.board.neighbors();
             for(Board b : it) {
-                if(n.prev != null && n.prev.board.equals(b)) continue;
+                if(n.prev != null && n.prev.board.equals(b))
+                    continue;
 //                Node newNode = new Node(b);
 //                newNode.prev = n;
                 pq.insert(new Node(b,n));
@@ -202,7 +203,8 @@ public class Solver{
         String br = "\n";
 
         final int board_n = stage.pq.min().board.dimension();
-        final int nDigits = (int) Math.floor(Math.log10((double) board_n*board_n)) + 1;
+//        final int nDigits = (int) Math.floor(Math.log10((double) board_n*board_n)) + 1;
+        final int nDigits = 3;
         final int width_1 = 20;
         final int width_2 = nDigits;
         String strFmt1 = "%-" + width_1 + "s = %" + width_2 + "d\t\n";

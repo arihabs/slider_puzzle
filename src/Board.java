@@ -19,7 +19,7 @@ public class Board{
         assert this.N > 1;
 
         // String representation
-        final int nDigits = (int) Math.floor(Math.log10((double) this.numel-1)) + 1;
+//        final int nDigits = (int) Math.floor(Math.log10((double) this.numel-1)) + 1;
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(Integer.toString(this.N) + "\n");
 
@@ -29,7 +29,8 @@ public class Board{
         for(int i =0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 this.tiles[i][j] = (short) tiles[i][j];
-                int currentTile = tiles[i][j];
+//                int currentTile = tiles[i][j];
+                short currentTile = this.tiles[i][j];
 
                 int linearIdx = i*N + j; // 0 based indexing
                 if(currentTile==0)
@@ -49,7 +50,8 @@ public class Board{
                 }
 
                 // String representation
-                stringBuilder.append(String.format("%"+nDigits+"d ",this.tiles[i][j]));
+                stringBuilder.append(String.format("%3d ",this.tiles[i][j]));
+//                stringBuilder.append(String.format("%"+nDigits+"d ",this.tiles[i][j]));
 //                stringBuilder.append(Integer.toString(this.tiles[i][j]) + " ");
             }
             stringBuilder.append("\n");
