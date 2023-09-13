@@ -66,7 +66,6 @@ public class Board{
             this.isSolution = true;
         else
             this.isSolution = false;
-
     }
 
     // string representation of this board
@@ -114,6 +113,9 @@ public class Board{
 
     // all neighboring boards
     public Iterable<Board> neighbors(){
+        if(pvNeighbors != null)
+            return pvNeighbors;
+
         // Find all neighboring boards relative to zero tile. Create new board, swaps neighboring tile and push onto queue.
         int[] zeroSubIdx = ind2sub(this.zeroIdx);
         int row = zeroSubIdx[0];
@@ -136,12 +138,18 @@ public class Board{
             newTiles[currRow][currCol] = 0;
             queueBoard.enqueue(new Board(newTiles));
         }
-        return queueBoard;
-    }
 
+        pvNeighbors = queueBoard;
+
+        return pvNeighbors;
+    }
+    private Iterable<Board> pvNeighbors = null;
 
     // a board that is obtained by exchanging any pair of tiles
     public Board twin(){
+        if(pvTwin != null)
+            return pvTwin;
+
         int newTiles[][] = new int[N][N];
         // Go through each element and find first 2 non-zero elements and swap them
         Queue<Integer> idxQueue = new Queue<Integer>();
@@ -170,11 +178,15 @@ public class Board{
         int tileTmp = newTiles[sub1[0]][sub1[1]];
         newTiles[sub1[0]][sub1[1]] = newTiles[sub2[0]][sub2[1]];
         newTiles[sub2[0]][sub2[1]] = tileTmp;
+
         Board twinBoard = new Board(newTiles);
-        return twinBoard;
+        pvTwin = twinBoard;
+        return pvTwin;
     }
 
     //Private properties & Methods
+    private Board pvTwin = null;
+
     private final int N;
 
     private final int numel;
